@@ -1,3 +1,3 @@
-FROM gliderlabs/alpine:3.1
-RUN apk-install dnsmasq
+FROM alpine:3.2
+RUN apk -U add dnsmasq
 ENTRYPOINT ["dnsmasq", "-k"]
