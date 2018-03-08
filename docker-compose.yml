@@ -1,0 +1,15 @@
+version: '2'
+services:
+  dnsmasq:
+    build: .
+    restart: always
+    container_name: dnsmasq
+    ports:
+      - "53:53/udp"
+      - "53:53/tcp"
+    cap_add:
+      - NET_ADMIN
+    extra_hosts:
+      - "your.host.name.com:192.168.1.42"
+    # environment:
+    #   - OPTION=--no-resolv
