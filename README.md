@@ -10,7 +10,8 @@ It is usually a good idea to use a tag other than `latest` if you are using this
 * `andyshinn/dnsmasq:2.75`: dnsmasq 2.75 based on Alpine 3.3
 * `andyshinn/dnsmasq:2.76`: dnsmasq 2.76 based on Alpine 3.4
 * `andyshinn/dnsmasq:2.78`: dnsmasq 2.78 based on Alpine Edge
-* `andyshinn/dnsmasq:2.79`: dnsmasq 2.78 based on Alpine 3.8
+* `andyshinn/dnsmasq:2.79`: dnsmasq 2.79 based on Alpine 3.8
+* `andyshinn/dnsmasq:2.80`: dnsmasq 2.80 based on Alpine 3.11
 
 [dnsmasq][dnsmasq] requires `NET_ADMIN` capabilities to run correctly. Start it with something like `docker run -p 53:53/tcp -p 53:53/udp --cap-add=NET_ADMIN andyshinn/dnsmasq:2.75`.
 
