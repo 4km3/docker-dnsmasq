@@ -1,3 +1,7 @@
+# Up For Adoption
+
+This repository is up for adoption. I am looking for a maintainer I can transfer the project to. Please see #32 for more information.
+
 # docker-dnsmasq
 
 It's a [dnsmasq][dnsmasq] Docker image. It is only 6 MB in size. It is just an `ENTRYPOINT` to the `dnsmasq` binary. Can you smell what the rock is cookin'?
