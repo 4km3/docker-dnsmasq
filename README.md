@@ -8,12 +8,6 @@ It's a [dnsmasq][dnsmasq] Docker image. It is only 6 MB in size. It is just an
 It is usually a good idea to use a tag other than `latest` if you are using this
 image in a production setting. There are several tags to choose from:
 
-- `4km3/dnsmasq:2.72`: dnsmasq 2.72 based on Alpine 3.2
-- `4km3/dnsmasq:2.75`: dnsmasq 2.75 based on Alpine 3.3
-- `4km3/dnsmasq:2.76`: dnsmasq 2.76 based on Alpine 3.4
-- `4km3/dnsmasq:2.78`: dnsmasq 2.78 based on Alpine Edge
-- `4km3/dnsmasq:2.79`: dnsmasq 2.79 based on Alpine 3.8
-- `4km3/dnsmasq:2.80`: dnsmasq 2.80 based on Alpine 3.11
 - `4km3/dnsmasq:2.81`: dnsmasq 2.81 based on Alpine 3.12
 - `4km3/dnsmasq:2.83`: dnsmasq 2.83 based on Alpine 3.13
 - `4km3/dnsmasq:2.85-r2`: dnsmasq 2.85-r2 based on Alpine 3.13
