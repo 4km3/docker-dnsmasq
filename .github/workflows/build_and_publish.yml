@@ -18,7 +18,7 @@ jobs:
             }
           - { distro: alpine, rel: edge, dnsmasq: 2.86-r0 }
     steps:
-      - uses: actions/checkout@v2.3.4
+      - uses: actions/checkout@v2.3.5
       - name: Check credentials
         id: docker-credentials
         run: |
