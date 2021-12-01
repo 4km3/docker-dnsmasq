@@ -14,6 +14,12 @@ jobs:
               rel: 3.14,
               dnsmasq: 2.85-r2,
               tag: "4km3/dnsmasq:2.85-r2",
+            }
+          - {
+              distro: alpine,
+              rel: 3.15,
+              dnsmasq: 2.86-r0,
+              tag: "4km3/dnsmasq:2.86-r0",
               taglatest: "4km3/dnsmasq:latest",
             }
           - { distro: alpine, rel: edge, dnsmasq: 2.86-r0 }

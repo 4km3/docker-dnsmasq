@@ -8,7 +8,8 @@ It's a [dnsmasq][dnsmasq] Docker image. It is only 6 MB in size. It is just an
 It is usually a good idea to use a tag other than `latest` if you are using this
 image in a production setting. There are several tags to choose from:
 
-- `4km3/dnsmasq:2.85-r2`: dnsmasq 2.85-r2 based on Alpine 3.14 (for backwards compatibility, `latest` points to this tag)
+- `4km3/dnsmasq:2.86-r0`: dnsmasq 2.86-r0 based on Alpine 3.15 (for backwards compatibility, `latest` points to this tag)
+- `4km3/dnsmasq:2.85-r2`: dnsmasq 2.85-r2 based on Alpine 3.14
 - `4km3/dnsmasq:edge`: dnsmasq 2.86-r0 based on Alpine edge
 
 [dnsmasq][dnsmasq] requires `NET_ADMIN` capabilities to run correctly. Start it
