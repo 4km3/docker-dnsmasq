@@ -28,7 +28,7 @@ jobs:
       - name: Check credentials
         id: docker-credentials
         run: |
-          echo ::set-output name=defined::$(test -n "${{ secrets.DOCKERHUB_USERNAME }}" && echo true || echo false)
+          echo "defined=$(test -n "${{ secrets.DOCKERHUB_USERNAME }}" && echo true || echo false)" >> $GITHUB_OUTPUT
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
       - name: Set up Docker Buildx
