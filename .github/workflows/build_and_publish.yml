@@ -24,7 +24,7 @@ jobs:
               tagedge: "4km3/dnsmasq:edge",
             }
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Check credentials
         id: docker-credentials
         run: |
