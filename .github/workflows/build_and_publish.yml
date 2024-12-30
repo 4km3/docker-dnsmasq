@@ -20,7 +20,7 @@ jobs:
               distro: alpine,
               rel: edge,
               dnsmasq: 2.90-r3,
-              tag: 20240923,
+              tag: "4km3/dnsmasq:20240923",
               tagedge: "4km3/dnsmasq:edge",
             }
     steps:
