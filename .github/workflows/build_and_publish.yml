@@ -11,18 +11,18 @@ jobs:
         version:
           - {
               distro: alpine,
-              rel: 3.14,
-              dnsmasq: 2.85-r2,
-              tag: "4km3/dnsmasq:2.85-r2",
+              rel: 3.21,
+              dnsmasq: 2.90-r3,
+              tag: "4km3/dnsmasq:2.90-r3",
+              taglatest: "4km3/dnsmasq:latest",
             }
           - {
               distro: alpine,
-              rel: 3.15,
-              dnsmasq: 2.86-r0,
-              tag: "4km3/dnsmasq:2.86-r0",
-              taglatest: "4km3/dnsmasq:latest",
+              rel: edge,
+              dnsmasq: 2.90-r3,
+              tag: 20240923,
+              tagedge: "4km3/dnsmasq:edge",
             }
-          - { distro: alpine, rel: edge, dnsmasq: 2.86-r0 }
     steps:
       - uses: actions/checkout@v3
       - name: Check credentials
@@ -52,5 +52,6 @@ jobs:
             "4km3/dnsmasq:${{ matrix.version.dnsmasq }}-${{ matrix.version.distro }}-${{ matrix.version.rel }}"
             ${{ matrix.version.tag }}
             ${{ matrix.version.taglatest }}
+            ${{ matrix.version.edge }}
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
