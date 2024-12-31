@@ -52,6 +52,6 @@ jobs:
             "4km3/dnsmasq:${{ matrix.version.dnsmasq }}-${{ matrix.version.distro }}-${{ matrix.version.rel }}"
             ${{ matrix.version.tag }}
             ${{ matrix.version.taglatest }}
-            ${{ matrix.version.edge }}
+            ${{ matrix.version.tagedge }}
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
