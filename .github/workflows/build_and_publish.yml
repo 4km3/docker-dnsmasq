@@ -10,18 +10,14 @@ jobs:
       matrix:
         version:
           - {
-              distro: alpine,
               rel: 3.21,
               dnsmasq: 2.90-r3,
-              tag: "4km3/dnsmasq:2.90-r3",
-              metatag: "4km3/dnsmasq:latest",
+              tag: latest,
             }
           - {
-              distro: alpine,
               rel: 20240923,
               dnsmasq: 2.90-r3,
-              tag: "4km3/dnsmasq:20240923",
-              metatag: "4km3/dnsmasq:edge",
+              tag: edge,
             }
     steps:
       - uses: actions/checkout@v4
@@ -39,6 +35,17 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
+      - name: Docker meta
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: |
+            ${{ github.repository_owner }}/dnsmasq
+          tags: |
+            ${{ matrix.version.dnsmasq }}-alpine-${{ matrix.version.rel }}
+            ${{ matrix.version.dnsmasq }}-alpine-${{ matrix.version.tag }}
+            ${{ matrix.version.rel != 'edge' && format('{0}', matrix.version.dnsmasq) || '' }}
+            ${{ matrix.version.tag }}
       - name: Build and push
         if: steps.docker-credentials.outputs.defined == 'true'
         id: docker_build
@@ -48,9 +55,7 @@ jobs:
           build-args: ALPINE_VERSION=${{ matrix.version.rel }}
           platforms: linux/amd64,linux/arm64,linux/arm/v7
           push: true
-          tags: |
-            "4km3/dnsmasq:${{ matrix.version.dnsmasq }}-${{ matrix.version.distro }}-${{ matrix.version.rel }}"
-            ${{ matrix.version.tag }}
-            ${{ matrix.version.metatag }}
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
