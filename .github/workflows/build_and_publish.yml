@@ -14,14 +14,14 @@ jobs:
               rel: 3.21,
               dnsmasq: 2.90-r3,
               tag: "4km3/dnsmasq:2.90-r3",
-              taglatest: "4km3/dnsmasq:latest",
+              metatag: "4km3/dnsmasq:latest",
             }
           - {
               distro: alpine,
-              rel: edge,
+              rel: 20240923,
               dnsmasq: 2.90-r3,
               tag: "4km3/dnsmasq:20240923",
-              tagedge: "4km3/dnsmasq:edge",
+              metatag: "4km3/dnsmasq:edge",
             }
     steps:
       - uses: actions/checkout@v4
@@ -51,7 +51,6 @@ jobs:
           tags: |
             "4km3/dnsmasq:${{ matrix.version.dnsmasq }}-${{ matrix.version.distro }}-${{ matrix.version.rel }}"
             ${{ matrix.version.tag }}
-            ${{ matrix.version.taglatest }}
-            ${{ matrix.version.tagedge }}
+            ${{ matrix.version.metatag }}
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
