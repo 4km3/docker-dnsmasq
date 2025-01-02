@@ -3,14 +3,15 @@ on:
   push:
     branches:
       - "master"
+
 jobs:
-  test:
+  do:
     runs-on: ubuntu-24.04
     strategy:
       matrix:
         version:
           - {
-              rel: 3.21,
+              rel: 3.21.0,
               dnsmasq: 2.90-r3,
               tag: latest,
             }
@@ -21,20 +22,31 @@ jobs:
             }
     steps:
       - uses: actions/checkout@v4
+
       - name: Check credentials
         id: docker-credentials
         run: |
-          echo "defined=$(test -n "${{ secrets.DOCKERHUB_USERNAME }}" && echo true || echo false)" >> $GITHUB_OUTPUT
+          echo defined=$(test -n "${{ secrets.DOCKERHUB_USERNAME }}" && echo true || echo false) >> $GITHUB_OUTPUT
+
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
+
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
+
       - name: Login to DockerHub
         if: steps.docker-credentials.outputs.defined == 'true'
         uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
+
+      - name: Split release components
+        id: split
+        run: |
+          echo majorminor=$(echo ${{ matrix.version.rel }} | awk -F. '{ print $1 "." $2 }') >> $GITHUB_OUTPUT
+          echo major=$(echo ${{ matrix.version.rel }} | awk -F. '{ print $1 }') >> $GITHUB_OUTPUT
+
       - name: Docker meta
         id: meta
         uses: docker/metadata-action@v5
@@ -42,10 +54,13 @@ jobs:
           images: |
             ${{ github.repository_owner }}/dnsmasq
           tags: |
-            ${{ matrix.version.dnsmasq }}-alpine-${{ matrix.version.rel }}
+            ${{ matrix.version.tag != 'edge' && format('{0}', matrix.version.dnsmasq) || '' }}
+            ${{ format('{0}-alpine-{1}', matrix.version.dnsmasq, matrix.version.rel) || '' }}
+            ${{ matrix.version.tag != 'edge' && format('{0}-alpine-{1}', matrix.version.dnsmasq, steps.split.outputs.majorminor) || '' }}
+            ${{ matrix.version.tag != 'edge' && format('{0}-alpine-{1}', matrix.version.dnsmasq, steps.split.outputs.major) || '' }}
             ${{ matrix.version.dnsmasq }}-alpine-${{ matrix.version.tag }}
-            ${{ matrix.version.rel != 'edge' && format('{0}', matrix.version.dnsmasq) || '' }}
             ${{ matrix.version.tag }}
+
       - name: Build and push
         if: steps.docker-credentials.outputs.defined == 'true'
         id: docker_build
@@ -57,5 +72,7 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+
       - name: Image digest
-        run: echo ${{ steps.docker_build.outputs.digest }}
+        run: |
+          echo ${{ steps.docker_build.outputs.digest }}
