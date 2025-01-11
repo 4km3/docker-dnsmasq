@@ -1,1 +1,1 @@
-FROM	alpine:20240923
+FROM	alpine:20250108
