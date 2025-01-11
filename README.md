@@ -26,4 +26,16 @@ As this is a very barebones entrypoint with just enough to run in the
 foreground, there is no logging enabled by default.
 To send logging to stdout you can add `--log-facility=-` as an option.
 
+## Traceability
+
+These Docker images are automatically labeled with the Git commit revision of
+the tree that was used to produce them, and can be obtained by running:
+
+    docker image inspect foo | jq '.[0].Config.Labels["org.opencontainers.image.revision"]'
+
+or
+
+    podman image inspect foo | jq '.[0].Labels["org.opencontainers.image.revision"]'
+
+
 [dnsmasq]: http://www.thekelleys.org.uk/dnsmasq/doc.html
