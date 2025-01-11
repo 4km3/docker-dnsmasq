@@ -76,6 +76,31 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
 
+      - name: Check Quay.io credentials
+        id: quayio-credentials
+        run: |
+          echo defined=$(test -n "${{ secrets.QUAYIO_USERNAME }}" && echo true || echo false) >> $GITHUB_OUTPUT
+
+      - name: Login to Quay.io
+        if: steps.quayio-credentials.outputs.defined == 'true'
+        uses: docker/login-action@9780b0c442fbb1117ed29e0efdff1e18412f7567 # v3.3.0
+        with:
+          registry: quay.io
+          username: ${{ secrets.QUAYIO_USERNAME }}
+          password: ${{ secrets.QUAYIO_PASSWORD }}
+
+      - name: Build and push
+        if: steps.quayio-credentials.outputs.defined == 'true'
+        id: quayio_build
+        uses: docker/build-push-action@48aba3b46d1b1fec4febb7c5d0c644b249a11355 # v6.10.0
+        with:
+          context: .
+          build-args: ALPINE_RELEASE=${{ steps.release.outputs.rel }}
+          platforms: linux/amd64,linux/arm64,linux/arm/v7
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+
       - name: Image digest
         run: |
           echo ${{ steps.docker_build.outputs.digest }}
