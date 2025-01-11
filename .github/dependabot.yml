@@ -5,3 +5,10 @@ updates:
     directory: "/"
     schedule:
       interval: "daily"
+
+  # Maintain dependencies for Docker images
+  - package-ecosystem: "docker"
+    directories:
+      - "/.github/releases/*"
+    schedule:
+      interval: "daily"
