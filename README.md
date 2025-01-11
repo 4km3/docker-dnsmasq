@@ -31,11 +31,11 @@ To send logging to stdout you can add `--log-facility=-` as an option.
 These Docker images are automatically labeled with the Git commit revision of
 the tree that was used to produce them, and can be obtained by running:
 
-    docker image inspect foo | jq '.[0].Config.Labels["org.opencontainers.image.revision"]'
+    docker image inspect 4km3/dnsmasq:edge | jq '.[0].Config.Labels["org.opencontainers.image.revision"]'
 
 or
 
-    podman image inspect foo | jq '.[0].Labels["org.opencontainers.image.revision"]'
+    podman image inspect 4km3/dnsmasq:edge | jq '.[0].Labels["org.opencontainers.image.revision"]'
 
 
 [dnsmasq]: http://www.thekelleys.org.uk/dnsmasq/doc.html
