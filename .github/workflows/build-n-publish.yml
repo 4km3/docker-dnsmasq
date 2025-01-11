@@ -80,7 +80,7 @@ jobs:
 
       - name: Build and push
         if: steps.docker-credentials.outputs.defined == 'true'
-        id: docker_build
+        id: docker-build
         uses: docker/build-push-action@48aba3b46d1b1fec4febb7c5d0c644b249a11355 # v6.10.0
         with:
           context: .
@@ -92,4 +92,4 @@ jobs:
 
       - name: Image digest
         run: |
-          echo ${{ steps.docker_build.outputs.digest }}
+          echo ${{ steps.docker-build.outputs.digest }}
