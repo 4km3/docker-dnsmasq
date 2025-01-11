@@ -1,13 +1,14 @@
 # docker-dnsmasq
 
-I’ts a [dnsmasq][dnsmasq] Docker image.
-It is only a few MB in size.
-It is just an `ENTRYPOINT` to the `dnsmasq` binary.
+Alpine Linux-based [dnsmasq][dnsmasq] Docker image, about 10 MB in size.
+With minimal fuzz, it just provides an `ENTRYPOINT` to the `dnsmasq` binary.
 
 ## Usage
 
-It is usually a good idea to use a tag other than `latest` if you are using this
-image in a production setting. There are two tags to choose from:
+CAVEAT EMPTOR: It is usually a good idea to use a tag other than `latest` if you are using this
+image in a production setting.
+
+There are two tags to choose from:
 
 - `4km3/dnsmasq:2.90-r3`: dnsmasq 2.90-r3 based on Alpine 3.21 (for backwards compatibility, `latest` points to this tag)
 - `4km3/dnsmasq:edge`: based on Alpine edge
