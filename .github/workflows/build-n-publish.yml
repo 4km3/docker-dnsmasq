@@ -11,12 +11,10 @@ jobs:
       matrix:
         version:
           - {
-              rel: 3.21.0,
               dnsmasq: 2.90-r3,
               tag: latest,
             }
           - {
-              rel: 20240923,
               dnsmasq: 2.90-r3,
               tag: edge,
             }
@@ -41,11 +39,16 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
+      - name: Get release
+        id: release
+        run: |
+          echo rel=$(sed 's/^.*://' .github/releases/${{ matrix.version.tag }}/Dockerfile) >> $GITHUB_OUTPUT
+
       - name: Split release components
         id: split
         run: |
-          echo majorminor=$(echo ${{ matrix.version.rel }} | awk -F. '{ print $1 "." $2 }') >> $GITHUB_OUTPUT
-          echo major=$(echo ${{ matrix.version.rel }} | awk -F. '{ print $1 }') >> $GITHUB_OUTPUT
+          echo majorminor=$(echo ${{ steps.release.outputs.rel }} | awk -F. '{ print $1 "." $2 }') >> $GITHUB_OUTPUT
+          echo major=$(echo ${{ steps.release.outputs.rel }} | awk -F. '{ print $1 }') >> $GITHUB_OUTPUT
 
       - name: Docker meta
         id: meta
@@ -55,7 +58,7 @@ jobs:
             ${{ github.repository_owner }}/dnsmasq
           tags: |
             ${{ matrix.version.tag != 'edge' && format('{0}', matrix.version.dnsmasq) || '' }}
-            ${{ format('{0}-alpine-{1}', matrix.version.dnsmasq, matrix.version.rel) || '' }}
+            ${{ format('{0}-alpine-{1}', matrix.version.dnsmasq, steps.release.outputs.rel) || '' }}
             ${{ matrix.version.tag != 'edge' && format('{0}-alpine-{1}', matrix.version.dnsmasq, steps.split.outputs.majorminor) || '' }}
             ${{ matrix.version.tag != 'edge' && format('{0}-alpine-{1}', matrix.version.dnsmasq, steps.split.outputs.major) || '' }}
             ${{ matrix.version.dnsmasq }}-alpine-${{ matrix.version.tag }}
@@ -67,7 +70,7 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           context: .
-          build-args: ALPINE_VERSION=${{ matrix.version.rel }}
+          build-args: ALPINE_RELEASE=${{ steps.release.outputs.rel }}
           platforms: linux/amd64,linux/arm64,linux/arm/v7
           push: true
           tags: ${{ steps.meta.outputs.tags }}
